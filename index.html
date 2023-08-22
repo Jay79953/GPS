@@ -15,14 +15,6 @@
             return distance;
         }
 
-        function arraysEqual(arr1, arr2) {
-            if (arr1.length !== arr2.length) return false;
-            for (var i = 0; i < arr1.length; i++) {
-                if (arr1[i] !== arr2[i]) return false;
-            }
-            return true;
-        }
-
         function showLocation() {
             if ("geolocation" in navigator) {
                 var trackedLocations = [];
@@ -49,24 +41,15 @@
                         var longitude = position.coords.longitude;
                         var distance = calculateDistance(targetLatitude, targetLongitude, latitude, longitude);
 
-                        var currentCoordinates = [latitude, longitude];
-                        var isDistinct = true;
-                        for (var i = 0; i < trackedLocations.length; i++) {
-                            if (arraysEqual(currentCoordinates, trackedLocations[i])) {
-                                isDistinct = false;
-                                break;
-                            }
+                        if (distance <= 2) {
+                            goodPointsCount++;
                         }
 
-                        if (isDistinct) {
-                            trackedLocations.push(currentCoordinates);
-                            if (distance <= 2) {
-                                goodPointsCount++;
-                            }
-                        }
+                        var locationInfo = `Latitude: ${latitude}, Longitude: ${longitude}, Distance: ${distance.toFixed(2)} meters`;
+                        trackedLocations.push(locationInfo);
 
                         var coordinatesElement = document.getElementById("coordinates");
-                        coordinatesElement.textContent = JSON.stringify(trackedLocations);
+                        coordinatesElement.textContent = trackedLocations.join("\n");
 
                         currentIteration++;
                     });
@@ -89,4 +72,3 @@
     <p id="message"></p>
 </body>
 </html>
-
