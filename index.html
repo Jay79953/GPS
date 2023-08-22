@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Location</title>
+    <script>
+        function showLocation() {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+                    document.getElementById("coordinates").textContent = `Latitude: ${latitude}, Longitude: ${longitude}`;
+                });
+            } else {
+                document.getElementById("coordinates").textContent = "Geolocation is not supported by your browser.";
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Live Location Coordinates</h1>
+    <button onclick="showLocation()">Get Location</button>
+    <p id="coordinates"></p>
+</body>
+</html>
